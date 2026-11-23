@@ -1,0 +1,16 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import eventPosts from '../../../facebook_image_posts.json';
+import archive from '../../data/facebook_data.json';
+const photos = [];
+for (const post of [...eventPosts].sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO))) {
+  for (const image of post.images || []) {
+    if (image?.src && photos.length < 32 && !photos.some((item) => item.src === image.src)) photos.push({ src: image.src, alt: post.title || '香港愛馬女士協會活動' });
+  }
+}
+---
+<SiteLayout title="活動回顧｜香港愛馬女士協會 HKALHL" description="重溫香港愛馬女士協會創會、慈善服裝展、義診與長者關懷活動。" active="gallery">
+  <section class="page-hero"><div class="container"><p class="eyebrow light"><span></span> GALLERY</p><h1>活動回顧</h1><p>珍藏社區相聚的片刻，重溫同行的點滴。</p></div></section>
+  <section class="section-pad albums"><div class="container"><p class="eyebrow"><span></span> ALBUM COLLECTION</p><h2>精選相簿</h2><div class="album-grid">{(archive.albums || []).map((album) => <a class="album-card" href={album.url} target="_blank" rel="noreferrer"><span class="album-count">{album.itemCount} 張相片</span><h3>{album.title}</h3><p>{album.description || '記錄協會與社區伙伴同行的珍貴時刻。'}</p><span class="album-link">瀏覽 Facebook 相簿 ↗</span></a>)}</div></div></section>
+  <section class="gallery section-pad"><div class="container"><div class="section-heading"><div><p class="eyebrow"><span></span> COMMUNITY MOMENTS</p><h2>活動花絮</h2></div></div><div class="gallery-grid gallery-full">{photos.map((photo, index) => <button class="gallery-item" type="button" data-src={photo.src} data-alt={photo.alt} aria-label={`放大活動相片 ${index + 1}`}><img src={photo.src} alt={photo.alt} loading="lazy" /></button>)}</div></div></section>
+</SiteLayout>
