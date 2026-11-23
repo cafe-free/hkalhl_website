@@ -1,0 +1,48 @@
+name: Deploy Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - "facebook_image_posts.json"
+      - "public/event-images/**"
+      - "src/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+      - "astro.config.mjs"
+      - "wrangler.jsonc"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: "1"
+
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler pages deploy ./dist --project-name hkalhl-website --branch main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

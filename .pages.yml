@@ -1,0 +1,86 @@
+media:
+  - name: event-images
+    label: 活動相片
+    input: public/event-images
+    output: /event-images/
+    categories: [image]
+    extensions: [jpg, jpeg, png, webp, avif]
+    rename: safe
+
+content:
+  - name: events
+    label: 活動紀錄
+    type: file
+    path: facebook_image_posts.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: 編號
+        type: string
+        readonly: true
+      - name: title
+        label: 活動標題
+        type: string
+        required: true
+      - name: eventDate
+        label: 活動日期（顯示）
+        type: string
+        required: true
+        description: 使用「2026年5月30日」格式；這是網站顯示的日期。
+      - name: eventDateISO
+        label: 活動日期（排序）
+        type: date
+        required: true
+        description: YYYY-MM-DD 格式；請與顯示日期保持一致，網站以此排序。
+      - name: postDate
+        label: Facebook 發佈日期
+        type: string
+        readonly: true
+      - name: location
+        label: 活動地點
+        type: string
+      - name: content
+        label: 活動內容
+        type: text
+      - name: postUrl
+        label: Facebook 貼文連結
+        type: string
+      - name: imageCount
+        label: 相片數量
+        type: number
+        readonly: true
+      - name: images
+        label: 活動相片
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "相片 {index}"
+        fields:
+          - name: src
+            label: 相片
+            type: image
+            options:
+              media: event-images
+          - name: alt
+            label: 替代文字
+            type: string
+          - name: width
+            label: 寬度
+            type: number
+            readonly: true
+          - name: height
+            label: 高度
+            type: number
+            readonly: true
+
+settings:
+  content:
+    merge: true
+  commit:
+    templates:
+      create: "content: 新增 {name}"
+      update: "content: 更新 {name}"
+      delete: "content: 刪除 {name}"
+      rename: "content: 重新命名 {oldFilename} 為 {newFilename}"
