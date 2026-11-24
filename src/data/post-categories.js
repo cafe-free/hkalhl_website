@@ -14,3 +14,11 @@ export function categoryName(key) {
     milestone: '重大盛事',
   })[key] || '協會動向';
 }
+
+export function simplifyTitle(title) {
+  if (!title) return '香港愛馬女士協會活動';
+  return title
+    .replace(/\s*[\(（][^)）]*[\)）]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
