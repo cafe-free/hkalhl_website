@@ -43,7 +43,7 @@ const schema = {
     <link rel="icon" type="image/png" href="/assets/logo.png" />
     <link rel="preconnect" href="https://scontent-nrt6-1.xx.fbcdn.net" />
     <link rel="preconnect" href="https://font.emtech.cc" crossorigin />
-    <link rel="stylesheet" href="/styles.css?v=2" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
@@ -54,6 +54,7 @@ const schema = {
     <main id="main"><slot /></main>
     <footer class="footer" id="contact"><div class="container footer-main"><div class="footer-brand"><img src="/assets/HKALHH_logo_newer_ver.webp" alt="香港愛馬女士協會" /><p>凝聚及發揮女性馬主與愛馬人士的力量，透過慈善活動服務社群及有需要人士。</p><a href="https://www.facebook.com/hkalhl.org" target="_blank" rel="noreferrer" class="social-link">f <span>追蹤 Facebook 專頁 ↗</span></a><a href="https://www.instagram.com/hkalhl" target="_blank" rel="noreferrer" class="social-link" style="margin-top:8px">◎ <span>追蹤 Instagram ↗</span></a></div><div class="footer-col"><h4>快速連結</h4><a href="/about/">關於本會</a><a href="/services/">核心項目</a><a href="/news/">最新動向</a><a href="/gallery/">活動回顧</a></div><div class="footer-col"><h4>服務項目</h4><a href="/services/#medical">專科義診醫療日</a><a href="/services/#elderly">情暖銀齡</a><a href="/services/#charity">慈善盛事</a><a href="/join/">加入我們</a></div><div class="footer-col contact-col"><h4>聯絡我們</h4><span>香港愛馬女士協會</span><a href="mailto:ka20180801@gmail.com">ka20180801@gmail.com</a><span>服務諮詢請電郵聯絡</span><a class="footer-contact" href="/contact/">發送查詢 <b>↗</b></a></div></div><div class="container footer-bottom"><span>© 2017–{new Date().getFullYear()} Hong Kong Association of Lady Horse Lovers (HKALHL). All Rights Reserved.</span><a href="#main">返回頁首 ↑</a></div></footer>
     <dialog class="lightbox" aria-label="活動照片"><button class="lightbox-close" aria-label="關閉">×</button><img alt="協會活動照片" /><p></p></dialog>
+    <dialog class="event-modal" aria-label="活動詳情"><button class="event-modal-close" aria-label="關閉">×</button><div class="event-modal-gallery"></div><div class="event-modal-body"><div class="event-modal-meta"><span class="event-modal-tag"></span><time></time></div><h3></h3><div class="event-modal-content"></div></div></dialog>
     <script>
       const menuButton = document.querySelector('.menu-toggle');
       const menu = document.querySelector('.main-nav');
@@ -79,6 +80,68 @@ const schema = {
         dialog.querySelector('p').textContent = item.dataset.alt;
         dialog.showModal();
       }));
+      const eventModal = document.querySelector('.event-modal');
+      const openEventModal = (card) => {
+        if (!eventModal) return;
+        const gallery = eventModal.querySelector('.event-modal-gallery');
+        const tag = eventModal.querySelector('.event-modal-tag');
+        const time = eventModal.querySelector('time');
+        const heading = eventModal.querySelector('h3');
+        const body = eventModal.querySelector('.event-modal-content');
+        const title = card.dataset.title || '';
+        const content = card.dataset.content || '';
+        let images = [];
+        try {
+          images = JSON.parse(card.dataset.images || '[]');
+        } catch {
+          images = [];
+        }
+        if (!images.length && card.dataset.image) images = [card.dataset.image];
+        const visibleImages = images.slice(0, 5);
+        gallery.innerHTML = '';
+        if (visibleImages.length) {
+          gallery.hidden = false;
+          gallery.dataset.count = String(visibleImages.length);
+          visibleImages.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `${title || '活動照片'} (${index + 1})`;
+            img.loading = 'lazy';
+            img.addEventListener('click', () => {
+              if (!dialog) return;
+              dialog.querySelector('img').src = src;
+              dialog.querySelector('img').alt = title || '協會活動照片';
+              dialog.querySelector('p').textContent = title;
+              dialog.showModal();
+            });
+            gallery.appendChild(img);
+          });
+        } else {
+          gallery.hidden = true;
+          gallery.dataset.count = '0';
+        }
+        tag.textContent = card.dataset.categoryLabel || '';
+        time.textContent = card.dataset.date || '';
+        heading.textContent = title;
+        body.innerHTML = '';
+        content.split('\n').filter(Boolean).forEach((line) => {
+          const p = document.createElement('p');
+          p.textContent = line;
+          body.appendChild(p);
+        });
+        eventModal.showModal();
+      };
+      document.querySelectorAll('.news-card').forEach((card) => {
+        card.addEventListener('click', () => openEventModal(card));
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openEventModal(card);
+          }
+        });
+      });
+      document.querySelector('.event-modal-close')?.addEventListener('click', () => eventModal?.close());
+      eventModal?.addEventListener('click', (event) => { if (event.target === eventModal) eventModal.close(); });
     </script>
   </body>
 </html>
