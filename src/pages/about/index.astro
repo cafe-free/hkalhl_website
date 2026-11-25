@@ -1,8 +1,15 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
+const chancellors = [
+  { role: '總理', name: '莫嘉怡', en: 'Lydia Mok', photo: '/assets/members/lydia-mok.webp' },
+  { role: '總理', name: '徐藝載', en: 'Creamy Tsui', photo: '/assets/members/creamy-tsui.webp' },
+  { role: '總理', name: '葉慧敏', en: 'Michelle Yip', photo: '/assets/members/michelle-yip.webp' },
+  { role: '總理', name: '胡珮君', en: 'Gwenny Wu', photo: '/assets/members/gwenny-wu.webp' },
+];
 ---
 <SiteLayout title="關於本會｜香港愛馬女士協會 HKALHL" description="了解香港愛馬女士協會的使命、發展里程與社區服務。" active="about">
   <section class="page-hero"><div class="container"><p class="eyebrow light"><span></span> ABOUT US</p><h1>關於本會</h1><p>以愛馬之心，凝聚力量，與社區同行。</p></div></section>
   <section class="section-pad"><div class="container content-grid"><div><p class="eyebrow"><span></span> OUR PURPOSE</p><h2>讓對馬匹的熱愛，<br><em>化為對社會的關懷。</em></h2></div><div class="prose"><p>香港愛馬女士協會（HKALHL）自 2017 年成立，凝聚女性馬主及愛馬人士，推動慈善服務與社區健康。我們相信，每一份善意都能成為社區的支持，因此與醫護、社福機構及地區伙伴合作，把服務帶到有需要人士身邊。</p><p>協會持續舉辦專科義診、長者關懷、節慶物資派發及慈善籌款活動，期望讓健康資訊更易接觸，讓關愛成為日常。</p></div></div></section>
+  <section class="section-pad members-section" id="members"><div class="container"><div class="section-heading"><div><p class="eyebrow"><span></span> OUR LEADERSHIP</p><h2>主要架構成員</h2></div></div><article class="member-card member-lead"><div class="member-photo"><img src="/assets/members/fione-yip.webp" alt="主席 葉思貝 Fione Yip" loading="lazy" /></div><div class="member-info"><span class="member-role">主席 · Chairman</span><h3>葉思貝</h3><p>Fione Yip</p></div></article><div class="members-grid">{chancellors.map((member) => <article class="member-card"><div class="member-photo"><img src={member.photo} alt={`${member.role} ${member.name} ${member.en}`} loading="lazy" /></div><div class="member-info"><span class="member-role">{member.role}</span><h3>{member.name}</h3><p>{member.en}</p></div></article>)}</div></div></section>
   <section class="journey-band" id="milestones"><div class="container milestone-grid"><div><p class="eyebrow light"><span></span> OUR JOURNEY</p><h2>一路走來，<br><em>步步同行。</em></h2><p class="timeline-intro">從一份關懷社區的初心，走到今天更多元的慈善服務。</p></div><div class="timeline"><article><span>2026</span><div><h3>深化社區專科義診</h3><p>於啟德舉辦專科義診醫療日，引入 AI 眼底及心血管健康檢測。</p></div></article><article><span>2025</span><div><h3>醫診到會 · 情暖銀齡</h3><p>巡迴多區社區，舉辦音樂節、長者關懷及家庭攝影活動。</p></div></article><article><span>2018</span><div><h3>慈善服裝展</h3><p>攜手 LUXE Tuxedo 籌得 HK$380,000，全數撥捐三間受惠機構。</p></div></article><article><span>2017</span><div><h3>香港愛馬女士協會成立</h3><p>創會典禮啟程，展開慈善服務。</p></div></article></div></div></section>
 </SiteLayout>
