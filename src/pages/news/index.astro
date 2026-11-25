@@ -2,7 +2,9 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import eventPosts from '../../../facebook_image_posts.json';
 import { categoryFor, categoryName, simplifyTitle } from '../../data/post-categories.js';
-const posts = [...eventPosts].sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO));
+const allPosts = [...eventPosts].sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO));
+const latestYear = Number(allPosts[0]?.eventDateISO?.slice(0, 4)) || new Date().getFullYear();
+const posts = allPosts.filter((post) => Number(post.eventDateISO?.slice(0, 4)) >= latestYear - 1);
 ---
 <SiteLayout title="最新動向｜香港愛馬女士協會 HKALHL" description="瀏覽香港愛馬女士協會的義診、長者關懷、社區服務及慈善活動紀錄。" active="news">
   <section class="page-hero"><div class="container"><p class="eyebrow light"><span></span> NEWS & STORIES</p><h1>最新動向</h1><p>記錄每一次同行，分享社區裡的溫暖故事。</p></div></section>
