@@ -1,12 +1,99 @@
 ---
-import SiteLayout from '../../layouts/SiteLayout.astro';
-import eventPosts from '../../../facebook_image_posts.json';
-import { categoryFor, categoryName, simplifyTitle, cleanContent } from '../../data/post-categories.js';
-const allPosts = [...eventPosts].sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO));
-const latestYear = Number(allPosts[0]?.eventDateISO?.slice(0, 4)) || new Date().getFullYear();
-const posts = allPosts.filter((post) => Number(post.eventDateISO?.slice(0, 4)) >= latestYear - 1);
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import eventPosts from "../../../facebook_image_posts.json";
+import {
+  categoryFor,
+  categoryName,
+  simplifyTitle,
+  cleanContent,
+} from "../../data/post-categories.js";
+const allPosts = [...eventPosts].sort((a, b) =>
+  b.eventDateISO.localeCompare(a.eventDateISO),
+);
+const latestYear =
+  Number(allPosts[0]?.eventDateISO?.slice(0, 4)) || new Date().getFullYear();
+const posts = allPosts.filter(
+  (post) => Number(post.eventDateISO?.slice(0, 4)) >= latestYear - 1,
+);
 ---
-<SiteLayout title="最新動向｜香港愛馬女士協會 HKALHL" description="瀏覽香港愛馬女士協會的義診、長者關懷、社區服務及慈善活動紀錄。" active="news">
-  <section class="page-hero"><div class="container"><p class="eyebrow light"><span></span> NEWS & STORIES</p><h1>最新動向</h1><p>記錄每一次同行，分享社區裡的溫暖故事。</p></div></section>
-  <section class="news section-pad"><div class="container"><div class="filters" role="group" aria-label="動向分類"><button class="filter active" data-filter="all">全部動向</button><button class="filter" data-filter="medical">專科義診</button><button class="filter" data-filter="medical-visit">醫診到會</button><button class="filter" data-filter="elderly">情暖銀齡</button><button class="filter" data-filter="youth">兒童青少年</button><button class="filter" data-filter="community">社區關懷</button><button class="filter" data-filter="milestone">重大盛事</button></div><div class="news-grid">{posts.map((post) => { const category = categoryFor(post); const catLabel = categoryName(category); const images = (post.images || []).map((img) => img.src).filter(Boolean); const image = images[0] || ''; const title = simplifyTitle(post.title); const date = post.eventDate || '活動日期未提供'; const content = post.cleanedContent || cleanContent(post.content); return <article class="news-card" tabindex="0" role="button" data-category={category} data-category-label={catLabel} data-image={image} data-images={JSON.stringify(images)} data-title={title} data-date={date} data-content={content}><div class="news-photo"><img src={image} alt={title} loading="lazy" /><span class="news-tag">{catLabel}</span></div><div class="news-copy"><div class="news-meta"><time datetime={post.eventDateISO}>{date}</time></div><h2>{title}</h2></div></article>; })}</div></div></section>
+
+<SiteLayout
+  title="最新動向｜香港愛馬女士協會 HKALHL"
+  description="瀏覽香港愛馬女士協會的義診、長者關懷、社區服務及慈善活動紀錄。"
+  active="news"
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow light">
+        <span></span> NEWS & STORIES
+      </p>
+      <h1>最新動向</h1>
+      <p>記錄每一次同行，分享社區裡的溫暖故事。</p>
+    </div>
+  </section>
+  <section class="news section-pad">
+    <div class="container">
+      <div class="filters" role="group" aria-label="動向分類">
+        <button class="filter active" data-filter="all">
+          全部動向
+        </button>
+        <button class="filter" data-filter="medical">
+          專科義診
+        </button>
+        <button class="filter" data-filter="medical-visit">
+          醫診到會
+        </button>
+        <button class="filter" data-filter="elderly">
+          情暖銀齡
+        </button>
+        <button class="filter" data-filter="youth">
+          兒童青少年
+        </button>
+        <button class="filter" data-filter="community">
+          社區關懷
+        </button>
+        <button class="filter" data-filter="milestone">
+          重大盛事
+        </button>
+      </div>
+      <div class="news-grid">
+        {posts.map((post) => {
+          const category = categoryFor(post);
+          const catLabel = categoryName(category);
+          const images = (post.images || [])
+            .map((img) => img.src)
+            .filter(Boolean);
+          const image = images[0] || "";
+          const title = simplifyTitle(post.title);
+          const date = post.eventDate || "活動日期未提供";
+          const content = post.cleanedContent || cleanContent(post.content);
+          return (
+            <article
+              class="news-card"
+              tabindex="0"
+              role="button"
+              data-category={category}
+              data-category-label={catLabel}
+              data-image={image}
+              data-images={JSON.stringify(images)}
+              data-title={title}
+              data-date={date}
+              data-content={content}
+            >
+              <div class="news-photo">
+                <img src={image} alt={title} loading="lazy" />
+                <span class="news-tag">{catLabel}</span>
+              </div>
+              <div class="news-copy">
+                <div class="news-meta">
+                  <time datetime={post.eventDateISO}>{date}</time>
+                </div>
+                <h2>{title}</h2>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
 </SiteLayout>
