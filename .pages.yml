@@ -1,8 +1,8 @@
 media:
   - name: event-images
     label: 活動相片
-    input: public/event-images
-    output: /event-images/
+    input: public/assets/event-images
+    output: /assets/event-images/
     categories: [image]
     extensions: [jpg, jpeg, png, webp, avif]
     rename: safe
@@ -11,7 +11,7 @@ content:
   - name: events
     label: 活動紀錄
     type: file
-    path: facebook_image_posts.json
+    path: public/assets/facebook_image_posts.json
     format: json
     list: true
     fields:
