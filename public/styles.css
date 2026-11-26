@@ -69,9 +69,14 @@ button {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(255, 255, 255, 0.97);
-  border-bottom: 1px solid rgba(18, 43, 67, 0.08);
-  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    120deg,
+    var(--footer-purple) 0%,
+    var(--footer-indigo) 55%,
+    var(--footer-teal) 100%
+  );
+  color: var(--white);
+  border-bottom: 0;
 }
 .nav-wrap {
   height: 100%;
@@ -120,13 +125,13 @@ button {
   right: 0;
 }
 .nav-cta {
-  background: var(--navy);
-  color: white;
+  background: var(--gold);
+  color: var(--ink-dark);
   padding: 12px 18px;
   border-radius: 2px;
 }
 .nav-cta span {
-  color: var(--gold);
+  color: var(--ink-dark);
   margin-left: 10px;
 }
 .menu-toggle {
@@ -1023,7 +1028,7 @@ button {
   .menu-toggle span {
     width: 23px;
     height: 1px;
-    background: var(--navy);
+    background: var(--white);
     transition: 0.2s;
   }
   .main-nav {
@@ -1034,6 +1039,7 @@ button {
     right: 0;
     height: auto;
     background: white;
+    color: var(--ink);
     padding: 10px 22px 22px;
     box-shadow: 0 14px 20px var(--shadow-nav);
     align-items: stretch;

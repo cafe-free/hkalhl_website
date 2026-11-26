@@ -48,7 +48,7 @@ const schema = {
     <link rel="preconnect" href="https://scontent-nrt6-1.xx.fbcdn.net" />
     <link rel="preconnect" href="https://font.emtech.cc" crossorigin />
     <link rel="stylesheet" href="/color.css?v=1" />
-    <link rel="stylesheet" href="/styles.css?v=12" />
+    <link rel="stylesheet" href="/styles.css?v=13" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
@@ -56,6 +56,28 @@ const schema = {
     <a class="skip-link" href="#main">
       跳至主要內容
     </a>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="/" aria-label="香港愛馬女士協會首頁">
+          <img src="/assets/logo.png" alt="香港愛馬女士協會 HKALHL" />
+        </a>
+        <button class="menu-toggle" aria-label="開啟選單" aria-expanded="false">
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="main-nav" aria-label="主選單">
+          {navItems.map((item) => (
+            <a
+              class:list={[active === item.id && "active"]}
+              href={item.href}
+              aria-current={active === item.id ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
     <div class="topline">
       <div class="container topline-inner">
         <div>
@@ -78,31 +100,6 @@ const schema = {
         </div>
       </div>
     </div>
-    <header class="site-header">
-      <div class="container nav-wrap">
-        <a class="brand" href="/" aria-label="香港愛馬女士協會首頁">
-          <img src="/assets/logo.png" alt="香港愛馬女士協會 HKALHL" />
-        </a>
-        <button class="menu-toggle" aria-label="開啟選單" aria-expanded="false">
-          <span></span>
-          <span></span>
-        </button>
-        <nav class="main-nav" aria-label="主選單">
-          {navItems.map((item) => (
-            <a
-              class:list={[active === item.id && "active"]}
-              href={item.href}
-              aria-current={active === item.id ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-          ))}
-          <a class="nav-cta" href="#contact">
-            聯絡我們 <span>↗</span>
-          </a>
-        </nav>
-      </div>
-    </header>
     <main id="main">
       <slot />
     </main>
