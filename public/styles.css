@@ -734,8 +734,8 @@ button {
 }
 .timeline article {
   display: grid;
-  grid-template-columns: 74px 1fr;
-  gap: 21px;
+  grid-template-columns: 64px 1fr;
+  gap: 40px;
   padding: 0 0 27px;
   position: relative;
 }
@@ -744,7 +744,7 @@ button {
   position: absolute;
   top: 8px;
   bottom: -2px;
-  left: 87px;
+  left: 83px;
   width: 1px;
   background: var(--line-timeline);
 }
@@ -758,7 +758,7 @@ button {
   height: 7px;
   border-radius: 50%;
   background: var(--gold);
-  left: 84px;
+  left: 80px;
   top: 7px;
   box-shadow: 0 0 0 4px white;
 }
@@ -1219,14 +1219,14 @@ button {
     gap: 43px;
   }
   .timeline article {
-    grid-template-columns: 65px 1fr;
-    gap: 16px;
+    grid-template-columns: 54px 1fr;
+    gap: 34px;
   }
   .timeline article:before {
-    left: 77px;
+    left: 70px;
   }
   .timeline article:after {
-    left: 74px;
+    left: 67px;
   }
   .gallery-grid {
     height: auto;
