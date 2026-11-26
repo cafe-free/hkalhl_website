@@ -43,7 +43,7 @@ const schema = {
     <link rel="icon" type="image/png" href="/assets/logo.png" />
     <link rel="preconnect" href="https://scontent-nrt6-1.xx.fbcdn.net" />
     <link rel="preconnect" href="https://font.emtech.cc" crossorigin />
-    <link rel="stylesheet" href="/styles.css?v=6" />
+    <link rel="stylesheet" href="/styles.css?v=8" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
@@ -69,11 +69,20 @@ const schema = {
       const dialog = document.querySelector('.lightbox');
       document.querySelector('.lightbox-close')?.addEventListener('click', () => dialog.close());
       dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
-      document.querySelectorAll('.filter').forEach((button) => button.addEventListener('click', () => {
+      const applyFilter = (filterKey) => {
+        const targetButton = document.querySelector(`.filter[data-filter="${filterKey}"]`);
+        if (!targetButton) return;
         document.querySelector('.filter.active')?.classList.remove('active');
-        button.classList.add('active');
-        document.querySelectorAll('.news-card').forEach((card) => { card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter; });
+        targetButton.classList.add('active');
+        document.querySelectorAll('.news-card').forEach((card) => {
+          card.hidden = filterKey !== 'all' && card.dataset.category !== filterKey;
+        });
+      };
+      document.querySelectorAll('.filter').forEach((button) => button.addEventListener('click', () => {
+        applyFilter(button.dataset.filter || 'all');
       }));
+      const initialFilter = new URLSearchParams(window.location.search).get('filter');
+      if (initialFilter) applyFilter(initialFilter);
       document.querySelectorAll('.gallery-item').forEach((item) => item.addEventListener('click', () => {
         dialog.querySelector('img').src = item.dataset.src;
         dialog.querySelector('img').alt = item.dataset.alt;
